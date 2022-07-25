@@ -85,8 +85,7 @@ public class UserController {
 		}
 		
 	}
-	
-	
+		
 	
 	@PutMapping("/update")
 	public UserEntity modify(@RequestBody UserEntity entity){
