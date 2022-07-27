@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderDTO {
 
+	private int ordernum;
 	private String card;  //카드 번호 16자리
-	private String cardper;  //카드 기간
+	private String exp;  //카드 기간
 	private String cvc;  //cvc
 	private String passport;  //여권
 	private String engname;  //영문이름
