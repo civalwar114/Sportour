@@ -24,33 +24,33 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors() // WebMvcConfig���� �̹� ���������Ƿ� �⺻ cors ����.
+        http.cors() // WebMvcConfig占쏙옙占쏙옙 占싱뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙占실뤄옙 占썩본 cors 占쏙옙占쏙옙.
                 .and()
-                .csrf()// csrf�� ���� ������� �����Ƿ� disable
+                .csrf()// csrf占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占쏙옙占쏙옙占실뤄옙 disable
                 .disable()
-                .httpBasic()// token�� ����ϹǷ� basic ���� disable
+                .httpBasic()// token占쏙옙 占쏙옙占쏙옙球퓐占� basic 占쏙옙占쏙옙 disable
                 .disable()
-                .sessionManagement()  // session ����� �ƴ��� ����
+                .sessionManagement()  // session 占쏙옙占쏙옙占� 占싣댐옙占쏙옙 占쏙옙占쏙옙
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests() // /�� /auth/** ��δ� ���� ���ص� ��.
-                .antMatchers("/", "/auth/**","/saram/**","/travinfo/**").permitAll() //������ ��� ��δ� �α����� ���ص� ���
-                .anyRequest() // /�� /auth/**�̿��� ��� ��δ� ���� �ؾߵ�.
+                .authorizeRequests() // /占쏙옙 /auth/** 占쏙옙灌占� 占쏙옙占쏙옙 占쏙옙占쌔듸옙 占쏙옙.
+                .antMatchers("/", "/auth/**","/saram/**","/travinfo/**","/order/**","/fileup").permitAll() //占쏙옙占쏙옙占쏙옙 占쏙옙占� 占쏙옙灌占� 占싸깍옙占쏙옙占쏙옙 占쏙옙占쌔듸옙 占쏙옙占�
+                .anyRequest() // /占쏙옙 /auth/**占싱울옙占쏙옙 占쏙옙占� 占쏙옙灌占� 占쏙옙占쏙옙 占쌔야듸옙.
                 .authenticated();
 
-        // filter ���.
-        // �� ������Ʈ����
-        // CorsFilter ������ �Ŀ�
-        // jwtAuthenticationFilter �����Ѵ�.
+        // filter 占쏙옙占�.
+        // 占쏙옙 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙
+        // CorsFilter 占쏙옙占쏙옙占쏙옙 占식울옙
+        // jwtAuthenticationFilter 占쏙옙占쏙옙占싼댐옙.
         http.addFilterAfter(
                 jwtAuthenticationFilter,
                 CorsFilter.class
         );
         return http.build();
     }
-    // 2022 - 07 -13 ��������Ʈ aws å ���뿡�� �ȵǴ� �κ��� ���α� ���� �ۼ��ؼ� ����
-    //������ ��ť��Ƽ ������Ʈ�� ������ �ȵǴ� �κ��� @Bean ó���� ������ ���� �ذ�
-    //�α��� ������ basic.disable�� ���� ����
-    //���� �ּ�ó�� permiaAll �� ������ �ʿ� ���� ����
+    // 2022 - 07 -13 占쏙옙占쏙옙占쏙옙占쏙옙트 aws 책 占쏙옙占쎈에占쏙옙 占싫되댐옙 占싸븝옙占쏙옙 占쏙옙慣占� 占쏙옙占쏙옙 占쌜쇽옙占쌔쇽옙 占쏙옙占쏙옙
+    //占쏙옙占쏙옙占쏙옙 占쏙옙큐占쏙옙티 占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙占쏙옙占쏙옙 占싫되댐옙 占싸븝옙占쏙옙 @Bean 처占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌔곤옙
+    //占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙 basic.disable占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
+    //占쏙옙占쏙옙 占쌍쇽옙처占쏙옙 permiaAll 占쏙옙 占쏙옙占쏙옙占쏙옙 占십울옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 }
 

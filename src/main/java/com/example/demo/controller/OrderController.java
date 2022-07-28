@@ -1,9 +1,20 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.dto.ResponseDTO;
+import com.example.demo.model.OrderEntity;
+import com.example.demo.service.OrderService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,23 +24,53 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order")
 public class OrderController {
 
-	
-	//µ¥ÀÌÅÍ¸¦ ÇÁ·ĞÆ®¿¡¼­ ¹Ş¾Æ ¿À°í
-	//ÀÚ¸®¼ö ÀÏÄ¡¸¸ È®ÀÎÇÏ°í
-	//·£´ı ¼ö(¿¹¾à¹øÈ£) ¸¦ ±×³É ¾Ë¾Æ¼­ º¸³» ÁÖ´Â Çü½ÄÀ¸·Î	
-	//Æ÷½ºÆ® ¸ÊÇÎÀ¸·Î ¹Ş¾Æ¿À±â? 
-	//¾Æ´Ô µğÆ¼¿À¿¡ Ä«µå ¹øÈ£ µîÀÌ ÀÔ·Â/ÀúÀå µÈ°ÍÀÌ È®ÀÎ µÇ¸é
-	//ÀÌ¶§ ·£´ı ¼ıÀÚ¸¦ »Ñ·ÁÁÖ°Ô
-	
-	//length·Î Æ¯Á¤ ±æÀÌ¿¡ ¸Â´ÂÁö È®ÀÎ ÇÑ ÈÄ ·£´ı ¼ıÀÚ »Ñ¸®±â.
-	
-	// º¸³»ÁÙ ·£´ı ÄÚµåµéÀº - ºñÇà±â-È£ÅÚ-ÀÔÀå±Ç-±³ÅëÆĞ½º 4°³
-	@PostMapping
-	public void payment() {
-		//if ¾îÂ¼±¸ length = 16 && length  ¾îÂå±¸ Çì¼­ 
-		//ºñ±³ ÈÄ ¸ÂÀ¸¸é ·£´ı ¼ıÀÚ »Ñ¸®±â
-		
+	@Autowired
+	private OrderService service;
+
+	@PostMapping("/order")
+	public ResponseEntity<?> createOrder(@RequestBody OrderEntity entity) {
+		Random rand = new Random();
+		try {
+			String numStr1 = "";// ë‚œìˆ˜ê°€ ì €ì¥ë  ë³€ìˆ˜
+			String numStr2 = "";// ë‚œìˆ˜ê°€ ì €ì¥ë  ë³€ìˆ˜
+			String numStr3 = "";// ë‚œìˆ˜ê°€ ì €ì¥ë  ë³€ìˆ˜
+			String numStr4 = "";// ë‚œìˆ˜ê°€ ì €ì¥ë  ë³€ìˆ˜
+			for (int i = 0; i < 6; i++) {
+
+				// 0~9 ê¹Œì§€ ë‚œìˆ˜ ìƒì„±
+				String ran1 = Integer.toString(rand.nextInt(10));
+				String ran2 = Integer.toString(rand.nextInt(10));
+				String ran3 = Integer.toString(rand.nextInt(10));
+				String ran4 = Integer.toString(rand.nextInt(10));
+				
+				numStr1 += ran1;
+				numStr2 += ran2;
+				numStr3 += ran3;
+				numStr4 += ran4;
+				
+
+			}
+			entity.setOrdernumb(0L);
+			entity.setHotelNum(numStr1);
+			entity.setMatchNum(numStr2);
+			entity.setPlaneNum(numStr3);
+			entity.setPassNum(numStr4);
+			List<OrderEntity> entities = service.create(entity);
+			ResponseDTO<OrderEntity> response = ResponseDTO.<OrderEntity>builder().data(entities).build();
+			return ResponseEntity.ok().body(response);
+
+		} catch (Exception e) {
+			String error = e.getMessage();
+			ResponseDTO<OrderEntity> response = ResponseDTO.<OrderEntity>builder().error(error).build();
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
-	
-	
+
+	@GetMapping("/orderinfo")
+	public ResponseEntity<?> outputOrder() {
+		List<OrderEntity> entities = service.output();
+		ResponseDTO<OrderEntity> response = ResponseDTO.<OrderEntity>builder().data(entities).build();
+		return ResponseEntity.ok().body(response);
+	}
+
 }

@@ -1,11 +1,17 @@
 package com.example.demo.model;
 
+import java.util.List;
+import java.util.Random;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,19 +25,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderEntity {
 
+	
+	
 	@Id
-	private int ordernumb;
-	
-	private String card;  //Ä«µå ¹øÈ£ 16ÀÚ¸®
-	private String exp;  //Ä«µå ±â°£
-	private String cvc;  //cvc
-	private String passport;  //¿©±Ç
-	private String engname;  //¿µ¹®ÀÌ¸§
-	private String peoNum;  //ÀÎ¿ø¼ö
-	
-	
-	
-	
-	
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="order_id")
+	private Long ordernumb;
+
+	private String hotelNum; // í˜¸í…”
+	private String planeNum; // ë¹„í–‰ê¸°
+	private String passNum; // êµí†µíŒ¨ìŠ¤
+	private String matchNum; // ê²½ê¸° ì…ì¥ê¶Œ
+
+	/*private String userId;// 
+	private String card; // ì¹´ë“œë²ˆí˜¸
+	private String exp; // ì¹´ë“œ ê¸°í•œ
+	private String cvc; // cvc
+	private String passport; // ì—¬ê¶Œ
+	private String engname; // ì˜ë¬¸ì´ë¦„ */
+	private int peoNum; // ì¸ì›ìˆ˜
+	@ManyToOne
+	@JoinColumn(name = "package_id")
+	private PackageEntity pack;
+
 }
